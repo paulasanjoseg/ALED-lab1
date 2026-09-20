@@ -257,5 +257,6 @@ public class EEGModel {
 			// TODO
 			
 		}
+		// terminar de entender y completar el código de esta práctica
 	}
 }
