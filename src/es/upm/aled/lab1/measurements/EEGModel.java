@@ -256,7 +256,7 @@ public class EEGModel {
 		return new Measurement(curDataPacket_values);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { //2 formas de ejecutar el main, con o sin argumentos
 		if (args.length > 0) {
 			EEGModel eeg = new EEGModel(args[0]);
 			eeg.plotData();
