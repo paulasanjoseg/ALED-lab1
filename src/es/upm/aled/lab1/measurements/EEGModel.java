@@ -56,7 +56,8 @@ public class EEGModel {
 	 * @param measurements The Measurements that make up the EEGModel.
 	 */
 	public EEGModel(Measurement[] measurements) {
-		// TODO
+		for(Measurement m: measurements)
+			this.addMeasurement(m);
 		
 	}
 
@@ -89,9 +90,7 @@ public class EEGModel {
 	 * @return The new EEGModel.
 	 */
 	public EEGModel filter(Filter filter) {
-		// TODO
-		
-		return null;
+		return filter.applyFilter(this);
 	}
 
 	/**
@@ -130,8 +129,20 @@ public class EEGModel {
 	 * @throws IOException Thrown if the file can't be written.
 	 */
 	public void saveFile(String fileName) throws IOException {
-		// TODO
+		File file = new File (fileName);//creo el manejador de ficheros
+		//creo el manejador de flujo de salida
+		FileOutputStream fileOutputStream = new FileOutputStream (file);//file: fichero en el que quiero que se escriba
+		PrintStream ps = new PrintStream (fileOutputStream);//creo el elemento capaz de escribir
+		//He creado un ficgero vacío
 		
+		int index = 0;
+		for(Measurement m: this.measurements) {
+			ps.print((index++)%256);
+			for(int i =0; i<m.numChannels(); i++)
+				ps.print("," + m.getChannel(i));
+			ps.println();
+		}
+		ps.close();
 	}
 
 	/**
@@ -249,14 +260,16 @@ public class EEGModel {
 		if (args.length > 0) {
 			EEGModel eeg = new EEGModel(args[0]);
 			eeg.plotData();
-			// TODO
 			
 		} else {
 			EEGModel eeg = new EEGModel();
 			eeg.createSyntheticData(1000);
-			// TODO
+			try {
+				eeg.saveFile("Synthetic.txt");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 		}
-		// terminar de entender y completar el código de esta práctica
 	}
 }
